@@ -5,6 +5,7 @@ import random
 import numpy as np
 import torch
 import torch.utils.data
+import torchaudio
 from librosa.filters import mel as librosa_mel_fn
 from librosa.util import normalize
 from scipy.io.wavfile import read
@@ -142,10 +143,12 @@ class MelDataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
         filename = self.audio_files[index]
         if self._cache_ref_count == 0:
-            audio, sampling_rate = load_wav(filename)
-            audio = audio / MAX_WAV_VALUE
+            audio, sampling_rate = torchaudio.load(filename)
+            # audio, sampling_rate = load_wav(filename)
+            # audio = audio / MAX_WAV_VALUE
             if not self.fine_tuning:
-                audio = normalize(audio) * 0.95
+                audio = audio / audio.abs().max() * 0.95
+                # audio = normalize(audio) * 0.95
             self.cached_wav = audio
             if sampling_rate != self.sampling_rate:
                 raise ValueError("{} SR doesn't match target {} SR".format(sampling_rate, self.sampling_rate))
@@ -154,8 +157,8 @@ class MelDataset(torch.utils.data.Dataset):
             audio = self.cached_wav
             self._cache_ref_count -= 1
 
-        audio = torch.FloatTensor(audio)
-        audio = audio.unsqueeze(0)
+        # audio = torch.FloatTensor(audio)
+        # audio = audio.unsqueeze(0)
 
         if not self.fine_tuning:
             if self.split:

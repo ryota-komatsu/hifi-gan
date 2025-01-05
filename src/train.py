@@ -313,7 +313,7 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--group_name", default=None)
-    parser.add_argument("--input_wavs_dir", default="LJSpeech-1.1/wavs")
+    parser.add_argument("--input_wavs_dir", default="LJSpeech-1.1/wavs16k")
     parser.add_argument("--input_mels_dir", default="ft_dataset")
     parser.add_argument("--input_training_file", default="LJSpeech-1.1/training.txt")
     parser.add_argument("--input_validation_file", default="LJSpeech-1.1/validation.txt")
