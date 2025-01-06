@@ -85,6 +85,9 @@ def train(rank, a, h):
     scheduler_g = torch.optim.lr_scheduler.ExponentialLR(optim_g, gamma=h.lr_decay, last_epoch=last_epoch)
     scheduler_d = torch.optim.lr_scheduler.ExponentialLR(optim_d, gamma=h.lr_decay, last_epoch=last_epoch)
 
+    scaler_g = torch.amp.GradScaler("cuda")
+    scaler_d = torch.amp.GradScaler("cuda")
+
     training_filelist, validation_filelist = get_dataset_filelist(a)
 
     trainset = MelDataset(
@@ -140,8 +143,6 @@ def train(rank, a, h):
             validset, num_workers=1, shuffle=False, sampler=None, batch_size=1, pin_memory=True, drop_last=True
         )
 
-        scaler_g = torch.amp.GradScaler("cuda")
-        scaler_d = torch.amp.GradScaler("cuda")
         sw = SummaryWriter(os.path.join(a.checkpoint_path, "logs"))
 
     generator.train()
