@@ -1,8 +1,8 @@
 {
     "resblock": "1",
     "num_gpus": 0,
-    "batch_size": 128,
-    "learning_rate": 0.001,
+    "batch_size": 64,
+    "learning_rate": 0.0002,
     "adam_b1": 0.8,
     "adam_b2": 0.99,
     "lr_decay": 0.999,
@@ -42,7 +42,7 @@
             5
         ]
     ],
-    "segment_size": 8008,
+    "segment_size": 16008,
     "num_mels": 80,
     "num_freq": 401,
     "n_fft": 400,
